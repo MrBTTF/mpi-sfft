@@ -22,6 +22,7 @@ vector<complex<float>> FFT(vector<complex<float>> samples)
     vector <complex<float>> rsamples(n); //result
 
     //reverse
+    #pragma omp parallel for
     for (int i = 0; i < samples.size(); i++)
     {
         rsamples.at(reverse2(i, n)) = samples.at(i);
@@ -31,9 +32,11 @@ vector<complex<float>> FFT(vector<complex<float>> samples)
     {
         int m = (int) pow(2, i);
         complex<float> wm = exp((const complex<float>) (-1i * 2 * M_PI / m));
+        #pragma omp parallel for
         for (int j = 0; j < n; j += m)
         {
             complex<float> w = 1.f + 0i;
+            #pragma omp parallel for
             for (int l = 0; l < m / 2; l++)
             {
                 complex<float> t = w * rsamples.at(j + l + m / 2);
