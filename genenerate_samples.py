@@ -13,25 +13,21 @@ N = args.count
 
 max_value = args.max_value
 
-bins_count = random.randint(1, float(N) / 20)
+bins_count = random.randint(15, 25)
 # bins_count = 1
 bins = []
 for i in range(bins_count):
     bins.append((random.gauss(max_value, max_value/2),
                  1.0/random.gauss(N/100,N/1000) * (2 * math.pi),
                  round(random.gauss(0, (2 * math.pi)/3), 2)))
+
 # print([1/(bin[1]/(2 * math.pi)) for bin in bins[:3]])
 # print([bin[0]/max_value-1 for bin in bins[:3]])
-cnt = 2 ** math.ceil(math.log(N, 2))
+cnt = int(2 ** math.ceil(math.log(N, 2)))
 with open("input.txt", "w+") as f:
-    for i in range(cnt):
-        if i == cnt - 1:
-            f.write("%f" % 0)
-            continue
-
-        if N < i < cnt - 1:
-            f.write("%f\n" % 0)
-            continue
+    for i in range(N):
         value = sum([bin[0] * (math.sin(i * bin[1] + bin[2])) for bin in bins])
-
         f.write("%f\n" % value)
+
+    f.write("0.0\n"*(cnt-1-N))
+    f.write("0.0")

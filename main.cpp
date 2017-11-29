@@ -54,6 +54,7 @@ int main()
 
     vector<complex<float>> input;
     readInput("input.txt", input);
+    cout << input.size() << " samples" << endl;
 //
 //    vector<complex<float>> output = FFT(input);
 //
@@ -63,17 +64,16 @@ int main()
 
     for (int i = 0; i < 4; i++)
     {
-        omp_set_num_threads(pow(2,i));
+        omp_set_num_threads(pow(2, i));
         chrono::time_point<chrono::system_clock> start = chrono::system_clock::now(), end;
-
-        output = FFT(input);
-
+        FFT(input);
         end = chrono::system_clock::now();
-        int elapsed = chrono::duration_cast<chrono::milliseconds>(end-start).count();
-        cout << pow(2,i) << " threads:" << elapsed << endl;
+        float elapsed = chrono::duration_cast<chrono::milliseconds>(end - start).count();
+        cout << pow(2, i) << " threads:" << elapsed << endl;
     }
 
-    writeOutput("output.txt", output);
+
+//    writeOutput("output.txt", output);
 
 
 
